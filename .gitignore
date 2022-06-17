@@ -56,3 +56,4 @@ dkms.conf
 *.user
 /.vs
 /Tamuz.Domain/obj
+/src/Tamuz.Tests/obj
