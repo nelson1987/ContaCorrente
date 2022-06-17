@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Tamuz.Domain.Movimentacao.Inclusao;
+using Tamuz.Domain.Movimentacao.Pesquisa;
 
 namespace Tamuz.Api.Controllers
 {
@@ -13,21 +15,32 @@ namespace Tamuz.Api.Controllers
         {
             _mediator = mediator;
         }
-        public async Task<IActionResult> Bloqueio([FromBody] MovimentacaoCommand request, [FromHeader] string partnerId)
+        
+        [HttpGet]
+        public async Task<IActionResult> Pesquisar([FromQuery] MovimentacaoQuery request, [FromHeader] string partnerId)
         {
             var result = await _mediator.Send(request);
+            return Ok(result);
+            //if (result.IsSuccess)
+            //{
+            //    return StatusCode((int)result.StatusCode, result.Data);
+            //}
 
-            if (result.IsSuccess)
-            {
-                return StatusCode((int)result.StatusCode, result.Data);
-            }
-
-            return StatusCode((int)result.StatusCode, new { erros = result.Errors });
+            //return StatusCode((int)result.StatusCode, new { erros = result.Errors });
         }
-    }
-    public class MovimentacaoCommand 
-    {
-        public string Conta { get; set; }
-        public decimal Valor { get; set; }
+
+        [HttpPost]
+        public async Task<IActionResult> Incluir([FromBody] MovimentacaoCommand request, [FromHeader] string partnerId)
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+
+            //if (result.IsSuccess)
+            //{
+            //    return StatusCode((int)result.StatusCode, result.Data);
+            //}
+
+            //return StatusCode((int)result.StatusCode, new { erros = result.Errors });
+        }
     }
 }
