@@ -29,7 +29,7 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
             return result;
         }
     }
-    public class ErroNotification
+    public class ErroNotification : INotification
     {
         public string Excecao { get; internal set; }
         public string? PilhaErro { get; internal set; }
@@ -46,7 +46,7 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
         public decimal Valor { get; set; }
         public DateTime DataOperacao { get; set; }
         public int Tipo { get; set; }
-       ´public TipoMovimentacao GetTransferType()
+        public TipoMovimentacao GetTransferType()
         {
             return (TipoMovimentacao)Tipo;
         }

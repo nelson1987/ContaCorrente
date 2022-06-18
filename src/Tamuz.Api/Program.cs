@@ -1,4 +1,5 @@
 using Tamuz.Domain;
+using Tamuz.Domain.Movimentacao.Inclusao;
 using Tamuz.Domain.Repositories;
 using Tamuz.Infra.Data.Repositories;
 
@@ -14,7 +15,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCustomMediator();
 
 builder.Services
-    .AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
+    .AddScoped<IMovimentacaoRepository, MovimentacaoRepository>()
+    .AddSingleton<IRouterCommandFactory, RouterCommandFactory>(); ;
 
 var app = builder.Build();
 
