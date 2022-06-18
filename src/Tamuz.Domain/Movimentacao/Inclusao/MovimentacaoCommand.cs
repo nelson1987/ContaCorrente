@@ -1,9 +1,34 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Tamuz.Domain.Repositories;
+using Tamuz.Domain.TransferenciaInterna;
 
 namespace Tamuz.Domain.Movimentacao.Inclusao
 {
+    public interface IRouterCommandFactory
+    {
+        TransferenciaInternaCommand MapTransferToInternalTransferAutbank(MovimentacaoCommand command);
+        // InternalTransferSmartCommand MapTransferToInternalTransferSmart(TransferCommand command);
+    }
+
+    public class RouterCommandFactory : IRouterCommandFactory
+    {
+        public TransferenciaInternaCommand MapTransferToInternalTransferAutbank(MovimentacaoCommand command)
+        {
+            var result = new TransferenciaInternaCommand()
+            {
+                //OperationDate = command.OperationDate,
+                //Description = command.Description,
+                //Transfer = command.Transfer,
+                //DebitorAccount = command.DebitorAccount,
+                //Creditor = command.Creditor,
+                //CodHistCredito = command.CodHistCredito,
+                //CodHistDebito = command.CodHistDebito,
+            };
+
+            return result;
+        }
+    }
     public class ErroNotification
     {
         public string Excecao { get; internal set; }
@@ -20,6 +45,11 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
         public string Conta { get; set; }
         public decimal Valor { get; set; }
         public DateTime DataOperacao { get; set; }
+        public int Tipo { get; set; }
+       ´public TipoMovimentacao GetTransferType()
+        {
+            return (TipoMovimentacao)Tipo;
+        }
     }
     public class MovimentacaoResponse : IResponse
     {
@@ -31,11 +61,14 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
         private readonly ILogger<MovimentacaoHandler> logger;
         private readonly IMediator mediator;
         private readonly IMovimentacaoRepository contaRepository;
-        public MovimentacaoHandler(ILogger<MovimentacaoHandler> logger, IMediator mediator, IMovimentacaoRepository contaRepository)
+        private readonly IRouterCommandFactory routerCommandFactory;
+
+        public MovimentacaoHandler(ILogger<MovimentacaoHandler> logger, IMediator mediator, IMovimentacaoRepository contaRepository, IRouterCommandFactory routerCommandFactory)
         {
             this.logger = logger;
             this.mediator = mediator;
             this.contaRepository = contaRepository;
+            this.routerCommandFactory = routerCommandFactory;
         }
 
         public async Task<MovimentacaoResponse> Handle(MovimentacaoCommand request, CancellationToken cancellationToken)
@@ -43,7 +76,17 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
             try
             {
                 logger.LogInformation("[INICIO]");
-                mediator.Send(request);
+
+                var handlerResponse = request.GetTransferType() switch
+                {
+                    TipoMovimentacao.Ted => await mediator.Send(routerCommandFactory.MapTransferToInternalTransferAutbank(request)),
+                    //TipoMovimentacao.Tef => await _mediator.Send(_routerCommandFactory.MapTransferToInternalTransferSmart(request)),
+                    //TipoMovimentacao.Pix => ErroInterno(),
+                    //TipoMovimentacao.Cheque => ErroInterno(),
+                    //TipoMovimentacao.Pix => ErroInterno(),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                //mediator.Send(request);
                 var movimentacao = new MovimentacaoModel() { };
                 await contaRepository.Add(movimentacao);
                 await mediator.Publish(new MovimentacaoIncluidaNotification { });
