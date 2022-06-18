@@ -1,13 +1,11 @@
-﻿namespace Tamuz.Domain
+﻿using MediatR;
+
+namespace Tamuz.Domain
 {
-    public interface ICommand
+    public interface ICommand<V> : IRequest<V> where V : IResponse
     {
     }
     public interface IResponse
     {
-    }
-    public interface IHandlerBase<T, V> where T : ICommand where V : IResponse
-    {
-        Task<T> Handle(T command, CancellationToken cancellationToken);
     }
 }
