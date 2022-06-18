@@ -27,8 +27,8 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
     {
         private readonly ILogger<MovimentacaoHandler> logger;
         private readonly IMediator mediator;
-        private readonly IContaRepository contaRepository;
-        public MovimentacaoHandler(ILogger<MovimentacaoHandler> logger, IMediator mediator, IContaRepository contaRepository)
+        private readonly IMovimentacaoRepository contaRepository;
+        public MovimentacaoHandler(ILogger<MovimentacaoHandler> logger, IMediator mediator, IMovimentacaoRepository contaRepository)
         {
             this.logger = logger;
             this.mediator = mediator;

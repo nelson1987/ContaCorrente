@@ -2,7 +2,7 @@
 
 namespace Tamuz.Domain.Repositories
 {
-    public interface IContaRepository : IRepository<MovimentacaoModel>
+    public interface IMovimentacaoRepository : IRepository<MovimentacaoModel>
     {
     }
 }

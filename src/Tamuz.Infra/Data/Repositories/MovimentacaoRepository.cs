@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Tamuz.Domain.Movimentacao;
 
-namespace Tamuz.Domain.Repositories
+namespace Tamuz.Infra.Data.Repositories
 {
-    public class ContaRepository : IContaRepository
+    public class MovimentacaoRepository : IMovimentacaoRepository
     {
         private static Dictionary<int, MovimentacaoModel> pessoas = new Dictionary<int, MovimentacaoModel>();
         public async Task Add(MovimentacaoModel pessoa)
