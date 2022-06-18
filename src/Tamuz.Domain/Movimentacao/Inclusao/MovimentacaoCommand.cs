@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Tamuz.Domain.Entities;
 using Tamuz.Domain.Repositories;
 using Tamuz.Domain.TransferenciaInterna;
 
@@ -44,7 +45,21 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
         public string Agencia { get; set; }
         public string Conta { get; set; }
         public decimal Valor { get; set; }
+        /// <summary>
+        /// Tipo Monetário: 
+        /// "BRL" - Real Brasileiro;
+        /// "USD" - Dólar Americano;
+        /// "EUR" - Euro
+        /// </summary>
+        public string Moeda { get; set; }
         public DateTime DataOperacao { get; set; }
+        /// <summary>
+        /// Tipo Movimento: 
+        /// 1 -> Ted limitado á R$50.000;
+        /// 2 -> Tef limitado á R$25.000, US$ 10.000 e €5.000;
+        /// 3 -> Pix limitado à R$1.000;
+        /// 4 -> Cheque limitado à R$20.000
+        /// </summary>
         public int Tipo { get; set; }
         public TipoMovimentacao GetTransferType()
         {

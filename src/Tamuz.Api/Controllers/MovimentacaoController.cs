@@ -6,7 +6,8 @@ using Tamuz.Domain.Movimentacao.Pesquisa;
 namespace Tamuz.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     public class MovimentacaoController : ControllerBase
     {
         private readonly IMediator _mediator;

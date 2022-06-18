@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Tamuz.Domain.Movimentacao;
+using Tamuz.Domain.Entities;
 using Tamuz.Domain.Movimentacao.Inclusao;
 using Tamuz.Domain.Repositories;
 
@@ -76,7 +76,7 @@ namespace Tamuz.Domain.TransferenciaInterna
 
         public async Task<MovimentacaoResponse> Handle(TransferenciaInternaCommand request, CancellationToken cancellationToken)
         {
-            var movimentacao = request.Adapt<MovimentacaoModel>();
+            var movimentacao = request.Adapt<Entities.Movimentacao>();
             await contaRepository.Add(movimentacao);
             return await Task.FromResult(movimentacao.Adapt<MovimentacaoResponse>());
         }
@@ -97,7 +97,7 @@ namespace Tamuz.Domain.TransferenciaInterna
 
         public async Task<MovimentacaoResponse> Handle(TransferenciaExternaCommand request, CancellationToken cancellationToken)
         {
-            var movimentacao = request.Adapt<MovimentacaoModel>();
+            var movimentacao = request.Adapt<Entities.Movimentacao>();
             await mediator.Publish(new TransferenciaExternaIncluidaNotification { });
             return await Task.FromResult(movimentacao.Adapt<MovimentacaoResponse>());
             //var pessoa = new Pessoa { Nome = request.Nome, Idade = request.Idade, Sexo = request.Sexo };
@@ -123,7 +123,7 @@ namespace Tamuz.Domain.TransferenciaInterna
 
         public async Task<MovimentacaoResponse> Handle(TransferenciaPixCommand request, CancellationToken cancellationToken)
         {
-            var movimentacao = request.Adapt<MovimentacaoModel>();
+            var movimentacao = request.Adapt<Entities.Movimentacao>();
             await contaRepository.Add(movimentacao);
             await mediator.Publish(new TransferenciaPixIncluidaNotification { });
             return await Task.FromResult(movimentacao.Adapt<MovimentacaoResponse>());
@@ -145,7 +145,7 @@ namespace Tamuz.Domain.TransferenciaInterna
 
         public async Task<MovimentacaoResponse> Handle(TransferenciaChequeCommand request, CancellationToken cancellationToken)
         {
-            var movimentacao = request.Adapt<MovimentacaoModel>();
+            var movimentacao = request.Adapt<Entities.Movimentacao>();
             await contaRepository.Add(movimentacao);
             await mediator.Publish(new TransferenciaChequeIncluidaNotification { });
             return await Task.FromResult(movimentacao.Adapt<MovimentacaoResponse>());
