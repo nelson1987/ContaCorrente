@@ -15,8 +15,11 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
     }
     public class MovimentacaoCommand : ICommand<MovimentacaoResponse>
     {
+        public string Ispb { get; set; }
+        public string Agencia { get; set; }
         public string Conta { get; set; }
         public decimal Valor { get; set; }
+        public DateTime DataOperacao { get; set; }
     }
     public class MovimentacaoResponse : IResponse
     {
