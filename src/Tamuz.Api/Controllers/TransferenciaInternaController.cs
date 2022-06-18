@@ -7,11 +7,11 @@ namespace Tamuz.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MovimentacaoController : ControllerBase
+    public class TransferenciaInternaController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public MovimentacaoController(IMediator mediator)
+        public TransferenciaInternaController(IMediator mediator)
         {
             _mediator = mediator;
         }

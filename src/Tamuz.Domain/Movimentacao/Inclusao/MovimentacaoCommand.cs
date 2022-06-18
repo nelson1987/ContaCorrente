@@ -9,7 +9,7 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
         public string Excecao { get; internal set; }
         public string? PilhaErro { get; internal set; }
     }
-    public class MovimentacaoIncluidaNotification: INotification
+    public class MovimentacaoIncluidaNotification : INotification
     {
 
     }
@@ -55,9 +55,9 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
 
                 return await Task.FromResult<MovimentacaoResponse>(new MovimentacaoResponse() { });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                await mediator.Publish(new MovimentacaoIncluidaNotification { Id = pessoa.Id, Nome = pessoa.Nome, Idade = pessoa.Idade, Sexo = pessoa.Sexo });
+                await mediator.Publish(new MovimentacaoIncluidaNotification { });
                 await mediator.Publish(new ErroNotification { Excecao = ex.Message, PilhaErro = ex.StackTrace });
                 return await Task.FromResult<MovimentacaoResponse>(new MovimentacaoResponse() { });
             }

@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Tamuz.Domain\Tamuz.Domain.csproj" />
     <ProjectReference Include="..\Tamuz.Domain\Tamuz.Domain.csproj" />
+    <ProjectReference Include="..\Tamuz.Infra\Tamuz.Infra.csproj" />
   </ItemGroup>
 
 </Project>

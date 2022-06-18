@@ -1,4 +1,6 @@
 ﻿using Tamuz.Domain;
+using Tamuz.Domain.Repositories;
+using Tamuz.Infra.Data.Repositories;
 
 namespace Tamuz.Api
 {
@@ -16,8 +18,8 @@ namespace Tamuz.Api
         {
             services.AddCustomMediator();
 
-           //services
-           //    .AddScoped<IParceiroRepository, ParceiroRepository>();
+           services
+               .AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
         }
     }
 }
