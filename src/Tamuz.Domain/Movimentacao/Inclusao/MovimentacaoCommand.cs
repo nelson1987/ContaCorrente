@@ -75,28 +75,22 @@ namespace Tamuz.Domain.Movimentacao.Inclusao
         {
             try
             {
+                //TODO: Se for Transferencia Interna - Apenas Banco de Dados
+                //TODO: Se for Transferencia Externa - Banco de Dados + Fila, para validar o status
+                //TODO: Se for Pix - Banco de Dados + Envio Rest para outra API
+                //TODO: Se for Cheque - Banco de Dados + Fila, para backoffice
                 logger.LogInformation("[INICIO]");
 
                 var handlerResponse = request.GetTransferType() switch
                 {
-                    TipoMovimentacao.Ted => await mediator.Send(routerCommandFactory.MapTransferToInternalTransferAutbank(request)),
+                    TipoMovimentacao.Tef => await mediator.Send(routerCommandFactory.MapTransferToInternalTransferAutbank(request)),
                     //TipoMovimentacao.Tef => await _mediator.Send(_routerCommandFactory.MapTransferToInternalTransferSmart(request)),
                     //TipoMovimentacao.Pix => ErroInterno(),
                     //TipoMovimentacao.Cheque => ErroInterno(),
                     //TipoMovimentacao.Pix => ErroInterno(),
                     _ => throw new ArgumentOutOfRangeException()
                 };
-                //mediator.Send(request);
-                var movimentacao = new MovimentacaoModel() { };
-                await contaRepository.Add(movimentacao);
-                await mediator.Publish(new MovimentacaoIncluidaNotification { });
-                //var pessoa = new Pessoa { Nome = request.Nome, Idade = request.Idade, Sexo = request.Sexo };
-                //
-                //pessoa = await _repository.Add(pessoa);
-                //
-                //await _mediator.Publish(new PessoaCriadaNotification { Id = pessoa.Id, Nome = pessoa.Nome, Idade = pessoa.Idade, Sexo = pessoa.Sexo });
-
-                return await Task.FromResult<MovimentacaoResponse>(new MovimentacaoResponse() { });
+                return await Task.FromResult<MovimentacaoResponse>(handlerResponse);
             }
             catch (Exception ex)
             {

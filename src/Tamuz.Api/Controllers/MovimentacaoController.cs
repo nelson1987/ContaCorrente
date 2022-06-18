@@ -34,13 +34,6 @@ namespace Tamuz.Api.Controllers
         {
             var result = await _mediator.Send(request);
             return Ok(result);
-
-            //if (result.IsSuccess)
-            //{
-            //    return StatusCode((int)result.StatusCode, result.Data);
-            //}
-
-            //return StatusCode((int)result.StatusCode, new { erros = result.Errors });
         }
     }
 }
